@@ -2,7 +2,7 @@
 
 Team: Shruthi Shankar (ss4592), Rahil Patel (rnp83), Ahmed Abouelkhir (aa2899)
 Topic: *BackdoorBench: A Comprehensive Benchmark of Backdoor Learning* (Wu et al., NeurIPS 2022).
-Question: how well do FT and NC defend against BadNets and Blended attacks on CIFAR-10 as the poisoning ratio drops?
+Question: How well do FT and NC defend against BadNets and Blended attacks on CIFAR-10 as the poisoning ratio drops?
 
 ## Repo map
 | Folder | Owner | Contents |
@@ -12,7 +12,7 @@ Question: how well do FT and NC defend against BadNets and Blended attacks on CI
 | `[shruthi_folder]/` | Shruthi (ss4592) | [Evaluation scripts and results. To be added.] |
 
 ## Item 1: Runnable baseline
-Environment used: Google Colab free T4, PyTorch 2.11, Python 3.13. The repo's `install.sh` pins PyTorch 1.11 and was not used.
+Environment used: Google Colab free T4 (used for the defenses), Ubuntu (used for the attacks), PyTorch 2.11, Python 3.13. The repo's `install.sh` pins PyTorch 1.11 and was not used.
 
 Setup:
     git clone https://github.com/SCLBD/BackdoorBench.git
@@ -58,6 +58,6 @@ A failure analysis of how FT and NC degrade as the poisoning ratio falls (1%, 5%
 
 ### Deviations from the proposal
 - **Model:** the proposal says VGG19. The BackdoorBench paper describes its VGG-19 as without batch norm. We used `vgg19_bn` and will switch to plain `vgg19` if the instructor prefers. These runs would then be a cross-check.
-- **Compute:** Colab free T4 instead of personal devices. [Instructor reply pending.]
-- **Attack provenance:** the VGG19-BN attack used for the defense runs was trained by Rahil on Colab. Ahmed's BadNets run used PreAct-ResNet18 (10 epochs, batch 32, CA 85.02%, ASR 96.26%) and is kept as a supplementary attack. [Update when Ahmed's VGG19 run exists.]
+- **Compute:** Colab free T4 (can be used to create the attacks and the defenses) instead of personal devices. 
+- **Attack provenance:** update
 - Three patches on top of commit `f02e353` (Item 1).
