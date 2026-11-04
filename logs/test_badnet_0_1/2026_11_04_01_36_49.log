@@ -1,0 +1,156 @@
+2026-11-04:01:36:49 [INFO    ] [prototype.py:124] {'amp': False,
+ 'attack': 'badnet',
+ 'attack_label_trans': 'all2one',
+ 'attack_target': 0,
+ 'batch_size': 128,
+ 'bd_yaml_path': './config/attack/badnet/default.yaml',
+ 'client_optimizer': 'sgd',
+ 'dataset': 'cifar10',
+ 'dataset_path': './data/cifar10',
+ 'device': 'cuda:0',
+ 'epochs': 2,
+ 'frequency_save': 0,
+ 'img_size': (32, 32, 3),
+ 'input_channel': 3,
+ 'input_height': 32,
+ 'input_width': 32,
+ 'lr': 0.01,
+ 'lr_scheduler': 'CosineAnnealingLR',
+ 'model': 'vgg19_bn',
+ 'non_blocking': True,
+ 'num_classes': 10,
+ 'num_workers': 4,
+ 'patch_mask_path': './resource/badnet/trigger_image.png',
+ 'pin_memory': True,
+ 'pratio': 0.1,
+ 'prefetch': False,
+ 'random_seed': 0,
+ 'save_folder_name': 'test_badnet_0_1',
+ 'save_path': './record/test_badnet_0_1',
+ 'sgd_momentum': 0.9,
+ 'terminal_info': ['./attack/badnet.py',
+                   '--yaml_path',
+                   './config/attack/prototype/cifar10.yaml',
+                   '--patch_mask_path',
+                   './resource/badnet/trigger_image.png',
+                   '--model',
+                   'vgg19_bn',
+                   '--pratio',
+                   '0.1',
+                   '--epochs',
+                   '2',
+                   '--random_seed',
+                   '0',
+                   '--save_folder_name',
+                   'test_badnet_0_1'],
+ 'wd': 0.0005,
+ 'yaml_path': './config/attack/prototype/cifar10.yaml'}
+2026-11-04:01:36:49 [DEBUG   ] [prototype.py:126] Only INFO or above level log will show in cmd. DEBUG level log only will show in log file.
+2026-11-04:01:36:50 [DEBUG   ] [prototype.py:130] {'git hash': '--git_hash f02e3534645f0ee63d6848653062cd6c0d6c400d',
+ 'last 3 log': 'commit f02e3534645f0ee63d6848653062cd6c0d6c400d\n'
+               'Author: SCLBD <90437772+SCLBD@users.noreply.github.com>\n'
+               'Date:   Fri Jul 4 16:28:38 2025 +0800\n'
+               '\n'
+               '    Update README.md\n'
+               '\n'
+               'commit b54631eb8884abc4e6c4653a579eddd6161c7ab5\n'
+               'Author: Hongrui CHEN '
+               '<75762846+CHR-ray@users.noreply.github.com>\n'
+               'Date:   Thu Mar 27 15:35:44 2025 +0800\n'
+               '\n'
+               '    Update install.sh\n'
+               '\n'
+               'commit 990c17304ef40b33e5193dd0c6adc964d6f8b077\n'
+               'Author: SCLBD <90437772+SCLBD@users.noreply.github.com>\n'
+               'Date:   Thu Mar 20 10:36:56 2025 +0800\n'
+               '\n'
+               '    Update README.md\n'
+               '    \n'
+               '    update web link',
+ 'status': 'On branch main\n'
+           "Your branch is up to date with 'origin/main'.\n"
+           '\n'
+           'Untracked files:\n'
+           '  (use "git add <file>..." to include in what will be committed)\n'
+           '\tattack/__pycache__/\n'
+           '\tdata/\n'
+           '\trecord/test_badnet_0_1/\n'
+           '\tutils/__pycache__/\n'
+           '\tutils/aggregate_block/__pycache__/\n'
+           '\tutils/bd_img_transform/__pycache__/\n'
+           '\tutils/bd_label_transform/__pycache__/\n'
+           '\n'
+           'nothing added to commit but untracked files present (use "git add" '
+           'to track)'}
+2026-11-04:01:36:50 [INFO    ] [badnet.py:111] stage1 start
+2026-11-04:01:36:51 [DEBUG   ] [prototype.py:152] dataset_and_transform_generate done
+2026-11-04:01:36:51 [DEBUG   ] [bd_dataset_v2.py:68] Not DatasetFolder or ImageFolder, so iter through
+2026-11-04:01:36:53 [DEBUG   ] [bd_dataset_v2.py:68] Not DatasetFolder or ImageFolder, so iter through
+2026-11-04:01:36:53 [DEBUG   ] [backdoor_generate_poison_index.py:35] Reminder: plz note that if p_num or pratio exceed the number of possible candidate samples
+ then only maximum number of samples will be applied
+2026-11-04:01:36:53 [DEBUG   ] [backdoor_generate_poison_index.py:36] Reminder: priority p_num > pratio, and choosing fix number of sample is prefered if possible 
+2026-11-04:01:36:53 [INFO    ] [backdoor_generate_poison_index.py:61] poison num:5000.0,real pratio:0.1
+2026-11-04:01:36:53 [DEBUG   ] [badnet.py:141] poison train idx is saved
+2026-11-04:01:36:53 [INFO    ] [bd_dataset_v2.py:133] save file format is .png
+2026-11-04:01:36:56 [DEBUG   ] [backdoor_generate_poison_index.py:35] Reminder: plz note that if p_num or pratio exceed the number of possible candidate samples
+ then only maximum number of samples will be applied
+2026-11-04:01:36:56 [DEBUG   ] [backdoor_generate_poison_index.py:36] Reminder: priority p_num > pratio, and choosing fix number of sample is prefered if possible 
+2026-11-04:01:36:56 [INFO    ] [backdoor_generate_poison_index.py:61] poison num:9000.0,real pratio:0.9
+2026-11-04:01:36:56 [INFO    ] [bd_dataset_v2.py:133] save file format is .png
+2026-11-04:01:37:01 [INFO    ] [badnet.py:193] stage2 start
+2026-11-04:01:37:01 [DEBUG   ] [model_trainer_generate.py:59] image_size ONLY apply for vit!!!
+If you use vit make sure you set the image size!
+2026-11-04:01:37:03 [DEBUG   ] [trainer_cls.py:1765] This class REQUIRE bd dataset to implement overwrite methods. This is NOT a general class for all cls task.
+2026-11-04:01:37:03 [INFO    ] [trainer_cls.py:972] Do NOT set the settings/parameters attr manually after you start training!
+You may break the relationship between them.
+2026-11-04:01:37:03 [INFO    ] [trainer_cls.py:1030] ('epoch_now:0, '
+ 'batch_now:0self.amp:False,self.criterion:CrossEntropyLoss(),self.optimizer:SGD '
+ '(\n'
+ 'Parameter Group 0\n'
+ '    dampening: 0\n'
+ '    differentiable: False\n'
+ '    foreach: None\n'
+ '    fused: None\n'
+ '    initial_lr: 0.01\n'
+ '    lr: 0.01\n'
+ '    maximize: False\n'
+ '    momentum: 0.9\n'
+ '    nesterov: False\n'
+ '    weight_decay: 0.0005\n'
+ "),self.scheduler:{'T_max': 100, 'eta_min': 0.0, 'base_lrs': [0.01], "
+ "'last_epoch': 0, '_step_count': 1, '_is_initial': False, "
+ "'_get_lr_called_within_step': False, '_last_lr': [0.01]},self.scaler:{})")
+2026-11-04:01:37:49 [INFO    ] [trainer_cls.py:1800] one epoch training part done, use time = 46.30493116378784 s
+2026-11-04:01:37:58 [INFO    ] [trainer_cls.py:65] {'batch': 390,
+ 'bd_test_loss_avg_over_batch': 2.33610956769594,
+ 'clean_test_loss_avg_over_batch': 1.6040902469731584,
+ 'epoch': 0,
+ 'test_acc': 0.3949,
+ 'test_asr': 0.07333333333333333,
+ 'test_ra': 0.4066666666666667,
+ 'train_acc': 0.25450721153846156,
+ 'train_acc_clean_only': 0.24834739255269425,
+ 'train_asr_bd_only': 0.30995792426367463,
+ 'train_epoch_loss_avg_over_batch': 1.9688920858578804,
+ 'train_ra_bd_only': 0.24984972951312362}
+2026-11-04:01:37:58 [DEBUG   ] [pyplot.py:497] Loaded backend module://matplotlib_inline.backend_inline version unknown.
+2026-11-04:01:37:58 [DEBUG   ] [trainer_cls.py:72] return df with np.nan and None converted by str()
+2026-11-04:01:37:59 [DEBUG   ] [trainer_cls.py:72] return df with np.nan and None converted by str()
+2026-11-04:01:38:45 [INFO    ] [trainer_cls.py:1800] one epoch training part done, use time = 46.287503480911255 s
+2026-11-04:01:38:53 [INFO    ] [trainer_cls.py:65] {'batch': 390,
+ 'bd_test_loss_avg_over_batch': 1.9564028054895535,
+ 'clean_test_loss_avg_over_batch': 1.3883993233306497,
+ 'epoch': 1,
+ 'test_acc': 0.5144,
+ 'test_asr': 0.08233333333333333,
+ 'test_ra': 0.5011111111111111,
+ 'train_acc': 0.4073116987179487,
+ 'train_acc_clean_only': 0.43276506721267693,
+ 'train_asr_bd_only': 0.17802726543704891,
+ 'train_epoch_loss_avg_over_batch': 1.5885574206327782,
+ 'train_ra_bd_only': 0.4326383319967923}
+2026-11-04:01:38:54 [DEBUG   ] [trainer_cls.py:72] return df with np.nan and None converted by str()
+2026-11-04:01:38:54 [DEBUG   ] [trainer_cls.py:88] return df with np.nan and None converted by str()
+2026-11-04:01:38:54 [INFO    ] [save_load_attack.py:141] saving...
+2026-11-04:01:38:54 [DEBUG   ] [save_load_attack.py:142] location : ./record/test_badnet_0_1/attack_result.pt
+2026-11-04:01:38:58 [INFO    ] [save_load_attack.py:149] Saved, folder path: ./record/test_badnet_0_1
