@@ -1,0 +1,104 @@
+2026-11-04:03:42:36 [INFO    ] [nc.py:578] {'EPSILON': 1e-07,
+ 'amp': True,
+ 'atk_succ_threshold': 98.0,
+ 'batch_size': 256,
+ 'checkpoint_load': None,
+ 'checkpoint_save': 'record/badnet_0_1/defense/nc/checkpoint/',
+ 'cleaning_ratio': 0.05,
+ 'client_optimizer': 'sgd',
+ 'cost_multiplier': 2,
+ 'dataset': 'cifar10',
+ 'dataset_path': './data/cifar10',
+ 'device': 'cuda',
+ 'early_stop': True,
+ 'early_stop_patience': 25,
+ 'early_stop_threshold': 0.99,
+ 'epochs': 100,
+ 'frequency_save': 0,
+ 'img_size': (32, 32, 3),
+ 'index': None,
+ 'init_cost': 0.001,
+ 'input_channel': 3,
+ 'input_height': 32,
+ 'input_width': 32,
+ 'log': 'record/badnet_0_1/defense/nc/log/',
+ 'lr': 0.01,
+ 'lr_scheduler': 'CosineAnnealingLR',
+ 'mask_lr': 0.1,
+ 'model': 'vgg19_bn',
+ 'n_times_test': 1,
+ 'nc_epoch': 80,
+ 'non_blocking': True,
+ 'num_classes': 10,
+ 'num_workers': 2.0,
+ 'patience': 5,
+ 'pin_memory': True,
+ 'prefetch': False,
+ 'random_seed': 0,
+ 'ratio': 0.05,
+ 'result_file': 'badnet_0_1',
+ 'save_path': 'record/badnet_0_1/defense/nc/',
+ 'sgd_momentum': 0.9,
+ 'terminal_info': ['./defense/nc.py',
+                   '--result_file',
+                   'badnet_0_1',
+                   '--yaml_path',
+                   './config/defense/nc/cifar10.yaml',
+                   '--dataset',
+                   'cifar10',
+                   '--model',
+                   'vgg19_bn',
+                   '--num_workers',
+                   '2'],
+ 'to_file': True,
+ 'unlearning_ratio': 0.2,
+ 'use_norm': 1,
+ 'wd': 0.0005,
+ 'yaml_path': './config/defense/nc/cifar10.yaml'}
+2026-11-04:03:42:36 [INFO    ] [nc.py:581] {'git hash': None,
+ 'last 3 log': 'commit f02e3534645f0ee63d6848653062cd6c0d6c400d\n'
+               'Author: SCLBD <90437772+SCLBD@users.noreply.github.com>\n'
+               'Date:   Fri Jul 4 16:28:38 2025 +0800\n'
+               '\n'
+               '    Update README.md\n'
+               '\n'
+               'commit b54631eb8884abc4e6c4653a579eddd6161c7ab5\n'
+               'Author: Hongrui CHEN '
+               '<75762846+CHR-ray@users.noreply.github.com>\n'
+               'Date:   Thu Mar 27 15:35:44 2025 +0800\n'
+               '\n'
+               '    Update install.sh\n'
+               '\n'
+               'commit 990c17304ef40b33e5193dd0c6adc964d6f8b077\n'
+               'Author: SCLBD <90437772+SCLBD@users.noreply.github.com>\n'
+               'Date:   Thu Mar 20 10:36:56 2025 +0800\n'
+               '\n'
+               '    Update README.md\n'
+               '    \n'
+               '    update web link',
+ 'status': 'On branch main\n'
+           "Your branch is up to date with 'origin/main'.\n"
+           '\n'
+           'Changes not staged for commit:\n'
+           '  (use "git add <file>..." to update what will be committed)\n'
+           '  (use "git restore <file>..." to discard changes in working '
+           'directory)\n'
+           '\tmodified:   utils/save_load_attack.py\n'
+           '\n'
+           'Untracked files:\n'
+           '  (use "git add <file>..." to include in what will be committed)\n'
+           '\tattack/__pycache__/\n'
+           '\tdata/\n'
+           '\tdefense/__pycache__/\n'
+           '\tmodels/__pycache__/\n'
+           '\trecord/badnet_0_1/\n'
+           '\trecord/test_badnet_0_1/\n'
+           '\tutils/__pycache__/\n'
+           '\tutils/aggregate_block/__pycache__/\n'
+           '\tutils/bd_img_transform/__pycache__/\n'
+           '\tutils/bd_label_transform/__pycache__/\n'
+           '\n'
+           'no changes added to commit (use "git add" and/or "git commit -a")'}
+2026-11-04:03:42:39 [INFO    ] [bd_dataset_v2.py:133] save file format is .png
+2026-11-04:03:42:39 [INFO    ] [nc.py:648] Test 0:
+2026-11-04:03:42:39 [INFO    ] [nc.py:659] ----------------- Analyzing label: 0 -----------------
