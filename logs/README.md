@@ -29,5 +29,17 @@ NC detection: flagged label 0 (mask norm 8.01; median 74.9, MAD 30.4, anomaly in
 - Failures found and fixed: `weights_only` load error, and `--num_workers` float error in NC and FT.
 - **Fallback trace:** `logs/rahil_badnet_0_1_local/`
 
+## Failure log: `--num_workers` float error (NC and FT)
+- **Symptom:** NC and FT crashed at the first DataLoader with
+  `TypeError: 'float' object cannot be interpreted as an integer`
+  (traceback in `nc.py` `train_step`, and `ft.py` `mitigation` via `trainer_cls.py`).
+- **Cause:** both scripts declare the argument as `parser.add_argument("--num_workers", type=float)`
+  (`defense/nc.py` line 512; same pattern in `defense/ft.py`). Passing `--num_workers 2`
+  parses as `2.0`, and PyTorch 2.11 rejects a float worker count.
+- **Check:** `grep -n "num_workers" defense/nc.py` showed the `type=float` declaration.
+- **Fix:** change `type=float` to `type=int` in both files (patches 2 and 3).
+- **Result:** after the patch NC ran end to end (flagged label 0) and FT completed 30 epochs.
+- **Workaround that needs no patch:** omit `--num_workers`; the default (4) works and only warns.
+
 ## Not yet verified
 - The ASR denominator. Check in the BackdoorBench code whether it excludes target-class test images, then state it here.
