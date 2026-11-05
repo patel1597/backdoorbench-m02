@@ -25,6 +25,32 @@ Training curves for the Colab attack run (`vgg19_bn_cifar`):
 
 More detail and the other runs: [`logs/README.md`](logs/README.md).
 
+### Evaluation: FT vs NC across model configurations
+
+Shruthi implemented an evaluation pipeline that extracts the final
+attack and defense metrics from the existing experiment logs, computes
+ASR reduction and clean accuracy change, and generates a comparison
+CSV and visualization.
+
+The initial evaluation compares BadNets at 10% poisoning on stock
+VGG19-BN and Ahmed's modified VGG19-BN.
+
+| Model | Defense | Baseline ASR | Defended ASR | ASR reduction |
+|---|---|---|---|---|
+| Stock VGG19-BN | FT | 92.86% | 14.24% | 78.61 pp |
+| Stock VGG19-BN | NC | 92.86% | 0.98% | 91.88 pp |
+| Modified VGG19-BN | FT | 96.71% | 91.69% | 5.02 pp |
+| Modified VGG19-BN | NC | 96.71% | 1.08% | 95.63 pp |
+
+![FT vs NC defense comparison](evaluation/defense_comparison.png)
+
+NC reduced ASR to approximately 1% for both model configurations.
+FT was substantially less effective on the modified model than on
+the stock model. The reason for this difference remains unverified.
+
+Evaluation scripts, generated results, and methodology are documented
+in [`evaluation/README.md`](evaluation/README.md).
+
 ## Repo map
 
 | Folder | Owner | Contents |
@@ -32,7 +58,7 @@ More detail and the other runs: [`logs/README.md`](logs/README.md).
 | `BadNets_Modified_VGG19BN + Results/` | Ahmed | Modified-model code, attack config, laptop run, and **his README with the attack steps** [confirm this is the current folder] |
 | `BadNets_GitHub/` | Ahmed | First run, PreAct-ResNet18 (supplementary) |
 | `logs/` | Rahil | Defense runs; see `logs/README.md` |
-| `[shruthi folder]/` | Shruthi | [Evaluation scripts. Pending.] |
+| `evaluation/` | Shruthi | Evaluation scripts, ASR and clean accuracy comparisons, generated results CSV, visualization, and methodology. See `evaluation/README.md`. |
 
 ## How to reproduce
 
@@ -66,6 +92,38 @@ NC takes about 40 min (trigger search about 20, unlearning about 17). FT takes a
 
 **Check it worked:** the attack ends near clean 0.87 / ASR 0.95 to 0.97; NC prints `Flagged label list: 0: ...` and "This is a backdoor model". Clean accuracy of exactly 0.1 means the model collapsed; check the model name and yaml.
 
+**5. Evaluation**
+
+The evaluation scripts use existing experiment summary CSV files
+in `logs/`. Retraining is not required to reproduce the comparisons.
+
+From the root of this repository, run:
+
+```bash
+python evaluation/compare_results.py
+```
+
+This generates `evaluation/results_summary.csv`.
+
+To generate the defense comparison visualization, install Matplotlib
+if necessary:
+
+```bash
+python -m pip install matplotlib
+```
+
+Then run:
+
+```bash
+python evaluation/plot_results.py
+```
+
+This generates `evaluation/defense_comparison.png`.
+
+The evaluation currently covers the completed BadNets 10% poisoning
+experiments. Additional attack types and poisoning ratios will be
+included as their results become available.
+
 ## Failures we hit
 1. `Weights only load failed`: PyTorch 2.6+ defaults `torch.load` to `weights_only=True`. Fixed by patch 1.
 2. `'float' object cannot be interpreted as an integer` in NC and FT: `--num_workers` is declared as float. Fixed by patches 2 and 3 (or omit the flag).
@@ -77,6 +135,19 @@ NC takes about 40 min (trigger search about 20, unlearning about 17). FT takes a
 - Matrix: 2 attacks x 2 defenses x 3 ratios. **Done:** BadNets 10%, both defenses. **Remaining:** 5%, 1%, Blended.
 - Midpoint runs use default defense settings (FT at 30 epochs instead of 100). Final runs will tune on a validation split, then evaluate once on test.
 - All numbers are single-seed baselines.
+- Midpoint evaluation: The existing BadNets 10% poisoning results
+  are compared across stock VGG19-BN and modified VGG19-BN.
+- Evaluation metrics: ASR reduction is calculated as baseline ASR
+  minus defended ASR. Clean accuracy change is calculated as
+  defended clean accuracy minus baseline clean accuracy.
+  Both differences are reported in percentage points.
+- Evaluation implementation: `evaluation/compare_results.py`
+  extracts metrics from the existing experiment summary CSV files.
+  `evaluation/plot_results.py` visualizes the defended ASR values.
+- Current limitations: Cross-attack comparisons, poisoning-ratio
+  stress testing, and repeated-seed analysis remain incomplete.
+  The observed difference in FT effectiveness between models
+  has not yet been explained.
 
 ## Deviations from the proposal
 - **Model:** proposal said VGG19. We use Ahmed's modified VGG19-BN and also report stock `vgg19_bn`. The paper's VGG-19 has no batch norm, so our numbers are not directly comparable to it. The instructor approved PreAct-ResNet18; [confirm `vgg19_bn_cifar` is acceptable].
@@ -89,6 +160,6 @@ NC takes about 40 min (trigger search about 20, unlearning about 17). FT takes a
 |---|---|
 | 1. Runnable baseline | How to reproduce, above |
 | 2. Trace and sanity check | **Fallback trace:** `logs/rahil_badnet_0_1_local/`. A 2-epoch model had no backdoor; the 30-epoch models reach ASR 0.93 to 0.97 and NC flags the true target. |
-| 3. Bounded contribution | Failure analysis of FT and NC as poisoning drops, with per-case results beside totals. First finding: FT's residual ASR at 10% was 0.14 on stock `vgg19_bn` but 0.92 on `vgg19_bn_cifar`. |
-| 4. Member evidence | Commits by `aa2899` (attack), `patel1597` (defenses), [Shruthi: pending] |
-| 5. Protocol and logs | Protocol above and `logs/` |
+| 3. Bounded contribution | Failure analysis of FT and NC as poisoning drops, with per-case results beside totals. First finding: FT's residual ASR at 10% was 0.14 on stock `vgg19_bn` but 0.92 on `vgg19_bn_cifar`. Initial comparison scripts and results are in `evaluation/`. |
+| 4. Member evidence | Commits by `aa2899` (attack), `patel1597` (defenses), `ShruthiS114` (evaluation) |
+| 5. Protocol and logs | Experimental protocol above, attack and defense logs in `logs/`, and evaluation methodology, scripts, and generated results in `evaluation/`. |

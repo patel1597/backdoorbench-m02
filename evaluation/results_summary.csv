@@ -1,0 +1,5 @@
+model,attack,poisoning_ratio,defense,baseline_clean_accuracy,baseline_asr,defended_clean_accuracy,defended_asr,asr_reduction_pp,clean_accuracy_change_pp
+Stock VGG19-BN,BadNets,10%,FT,86.29,92.86,87.49,14.24,78.61,1.2
+Stock VGG19-BN,BadNets,10%,NC,86.29,92.86,88.24,0.98,91.88,1.95
+Modified VGG19-BN,BadNets,10%,FT,87.62,96.71,90.41,91.69,5.02,2.79
+Modified VGG19-BN,BadNets,10%,NC,87.62,96.71,90.61,1.08,95.63,2.99
