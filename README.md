@@ -131,7 +131,7 @@ included as their results become available.
 4. A 2-epoch attack has no backdoor (ASR 8%). Check ASR before defending.
 
 ## Protocol
-- Clean accuracy over all 10,000 test images. ASR on the 9,000-image backdoor test set, consistent with excluding the 1,000 images already labeled class 0 [confirm in code].
+- Clean accuracy is computed over all 10,000 test images. ASR is computed on the 9,000-image backdoor test set, which is consistent with excluding the 1,000 test images whose true label is already class 0. We have not yet confirmed in the BackdoorBench code that this is how the set is built; we will confirm it before the final report.
 - Matrix: 2 attacks x 2 defenses x 3 ratios. **Done:** BadNets 10%, both defenses. **Remaining:** 5%, 1%, Blended.
 - Midpoint runs use default defense settings (FT at 30 epochs instead of 100). Final runs will tune on a validation split, then evaluate once on test.
 - All numbers are single-seed baselines.
@@ -150,7 +150,7 @@ included as their results become available.
   has not yet been explained.
 
 ## Deviations from the proposal
-- **Model:** proposal said VGG19. We use Ahmed's modified VGG19-BN and also report stock `vgg19_bn`. The paper's VGG-19 has no batch norm, so our numbers are not directly comparable to it. The instructor approved PreAct-ResNet18; [confirm `vgg19_bn_cifar` is acceptable].
+- **Model:** the proposal specified VGG19. We use a modified VGG19-BN (`vgg19_bn_cifar`) as the main model, and also report stock `vgg19_bn`. **Why:** Ahmed's first run with stock `vgg19_bn` on his laptop setup collapsed. The model predicted class 0 for all 10,000 clean test images (about 10% clean accuracy, 100% ASR). His clean-only tests showed that replacing the pooling layer with `AdaptiveAvgPool2d((1, 1))` and the classifier with a single `Linear(512, 10)` let the model learn CIFAR-10 (83.12% clean accuracy after 8 epochs). The stock `vgg19_bn` did not collapse in Rahil's Colab run, so the cause appears to be setup-specific; we did not isolate it. We kept one architecture per comparison and do not mix the two in one table. The BackdoorBench paper describes its VGG-19 as without batch norm, so our numbers are not directly comparable to the paper's. We were told that switching models is acceptable provided the reason is documented in the README, which this bullet does.
 - **Compute:** Colab free T4 instead of personal devices (approved by the instructor). Sessions reset and wiped the disk, so results were backed up to Drive and pushed here.
 - **FT epochs:** 30 instead of 100.
 - **Provenance:** Ahmed designed the model and ran it first; Rahil re-ran it on Colab so the defenses could run on it.
