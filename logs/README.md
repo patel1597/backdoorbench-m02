@@ -1,45 +1,45 @@
-# Rahil Patel (rnp83): Defense pipeline (FT, NC) on BadNets 10%
+# Rahil Patel (rnp83): defense runs (FT and NC) on BadNets 10%
 
-## Configuration
-- BackdoorBench commit `f02e3534645f0ee63d6848653062cd6c0d6c400d`, plus three patches for PyTorch 2.11:
-  - `utils/save_load_attack.py`: `torch.load(..., weights_only=False)`
-  - `defense/nc.py`: `--num_workers` type float to int
-  - `defense/ft.py`: `--num_workers` type float to int
-- Dataset CIFAR-10, attack BadNets (3x3 white square, target label 0), poisoning ratio 10%, seed 0
-- Model: `vgg19_bn` (VGG19 with batch norm). The proposal says VGG19, and the BackdoorBench paper describes its VGG-19 as without batch norm. We used `vgg19_bn`, the variant we had working for the midpoint, and will switch to plain `vgg19` if the instructor prefers. These runs would then be kept as a cross-check.
-- Attack: 30 epochs, trained by Rahil on Colab (free T4). Ahmed's separate run used PreAct-ResNet18 (see `BadNets_GitHub/`).
-- FT: 30 epochs (default is 100), `ratio` 0.05. NC: default config.
-- Environment: Colab free T4, PyTorch 2.11, Python 3.13.
-
-## Results (single seed, single poisoning ratio: baseline only)
-| Stage | Clean accuracy | ASR |
-|---|---|---|
-| Undefended attack | 0.8629 | 0.9286 |
-| After NC | 0.8824 | 0.0098 |
-| After FT | 0.8749 | 0.1424 |
-
-NC detection: flagged label 0 (mask norm 8.01; median 74.9, MAD 30.4, anomaly index 2.199, just above the usual threshold of 2).
+Setup, reproduction commands, patches and the full failure log are in the [root README](../README.md). This file only describes what is in each folder here. All runs are BackdoorBench commit `f02e3534645f0ee63d6848653062cd6c0d6c400d`, CIFAR-10, BadNets (3x3 white square, target label 0), 10% poisoning, seed 0, Colab free T4, single run each.
 
 ## Folders
-- `test_badnet_0_1/`: 2-epoch smoke test. The backdoor never formed (ASR 7-8%), so it checks the pipeline only. This is why we retrained.
-- `rahil_badnet_0_1_local/`: 30-epoch baseline with `defense/nc/` and `defense/ft/`.
 
-## Sanity check and fallback trace
-- Check: after 2 epochs ASR was 7-8% (no backdoor). After 30 epochs ASR was 0.93, and NC flagged label 0, the true target.
-- Failures found and fixed: `weights_only` load error, and `--num_workers` float error in NC and FT.
-- **Fallback trace:** `logs/rahil_badnet_0_1_local/`
+| Folder | Model | Role |
+|---|---|---|
+| `rahil_vgg19_cifar_0_1/` | `vgg19_bn_cifar` (Ahmed's modified VGG19-BN), 30 epochs, batch 32 | **Main runs:** attack, NC, FT |
+| `rahil_badnet_0_1_local/` | stock `vgg19_bn`, 30 epochs | Cross-check and **fallback trace**: attack, NC, FT |
+| `test_badnet_0_1/` | stock `vgg19_bn`, 2 epochs | Smoke test only: the backdoor did not form (ASR about 8%), so no defense result from it counts |
 
-## Failure log: `--num_workers` float error (NC and FT)
-- **Symptom:** NC and FT crashed at the first DataLoader with
-  `TypeError: 'float' object cannot be interpreted as an integer`
-  (traceback in `nc.py` `train_step`, and `ft.py` `mitigation` via `trainer_cls.py`).
-- **Cause:** both scripts declare the argument as `parser.add_argument("--num_workers", type=float)`
-  (`defense/nc.py` line 512; same pattern in `defense/ft.py`). Passing `--num_workers 2`
-  parses as `2.0`, and PyTorch 2.11 rejects a float worker count.
-- **Check:** `grep -n "num_workers" defense/nc.py` showed the `type=float` declaration.
-- **Fix:** change `type=float` to `type=int` in both files (patches 2 and 3).
-- **Result:** after the patch NC ran end to end (flagged label 0) and FT completed 30 epochs.
-- **Workaround that needs no patch:** omit `--num_workers`; the default (4) works and only warns.
+Each run folder holds the attack log, `attack_df.csv`, `attack_df_summary.csv`, the metric plots, and `defense/nc/` and `defense/ft/`. Model files and poisoned images are not stored here because they are too large.
 
-## Not yet verified
-- The ASR denominator. Check in the BackdoorBench code whether it excludes target-class test images, then state it here.
+## Results
+
+| Run | Stage | Clean accuracy | ASR |
+|---|---|---|---|
+| `rahil_vgg19_cifar_0_1` | Undefended | 0.8762 | 0.9671 |
+| | After NC | 0.9061 | 0.0108 |
+| | After FT (30 epochs) | 0.9041 | 0.9169 |
+| `rahil_badnet_0_1_local` | Undefended | 0.8629 | 0.9286 |
+| | After NC | 0.8824 | 0.0098 |
+| | After FT (30 epochs) | 0.8749 | 0.1424 |
+
+**NC detection**
+
+| Run | Flagged label | Its mask norm | Median | MAD | Anomaly index |
+|---|---|---|---|---|---|
+| `rahil_vgg19_cifar_0_1` | 0 | 5.09 | 73.68 | 26.11 | 2.627 |
+| `rahil_badnet_0_1_local` | 0 | 8.01 | 74.95 | 30.44 | 2.199 |
+
+Label 0 is the true target. An anomaly index above about 2 counts as flagged.
+
+## Notes
+
+- FT removed most of the backdoor on stock `vgg19_bn` (ASR 0.93 to 0.14) but little on `vgg19_bn_cifar` (0.97 to 0.92). We do not know why and have not tested an explanation.
+- Clean accuracy rises after NC partly because its unlearning stage trains for 100 epochs, more than the 30-epoch attack models received.
+- FT was run for 30 epochs instead of the default 100, with `ratio` 0.05.
+- Results from the two architectures are not combined into one comparison.
+- The ASR denominator is not yet confirmed. The backdoor test set has 9,000 images, which is consistent with excluding the 1,000 images whose true label is already the target. This still needs to be checked in the code.
+
+## Fallback trace
+
+`logs/rahil_badnet_0_1_local/`
