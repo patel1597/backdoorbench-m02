@@ -55,7 +55,7 @@ in [`evaluation/README.md`](evaluation/README.md).
 
 | Folder | Owner | Contents |
 |---|---|---|
-| `BadNets_Modified_VGG19BN + Results/` | Ahmed | Modified-model code, attack config, laptop run, and **his README with the attack steps** [confirm this is the current folder] |
+| `BadNets_Modified_VGG19BN + Results/` | Ahmed | Modified-model code, attack config, laptop run, and Ahmed's README with the attack steps |
 | `BadNets_GitHub/` | Ahmed | First run, PreAct-ResNet18 (supplementary) |
 | `logs/` | Rahil | Defense runs; see `logs/README.md` |
 | `evaluation/` | Shruthi | Evaluation scripts, ASR and clean accuracy comparisons, generated results CSV, visualization, and methodology. See `evaluation/README.md`. |
