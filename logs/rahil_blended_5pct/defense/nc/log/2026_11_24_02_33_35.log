@@ -1,0 +1,139 @@
+2026-11-24:02:33:35 [INFO    ] [nc.py:578] {'EPSILON': 1e-07,
+ 'amp': True,
+ 'atk_succ_threshold': 98.0,
+ 'batch_size': 256,
+ 'checkpoint_load': None,
+ 'checkpoint_save': 'record/blended_vgg19_cifar_0_05/defense/nc/checkpoint/',
+ 'cleaning_ratio': 0.05,
+ 'client_optimizer': 'sgd',
+ 'cost_multiplier': 2,
+ 'dataset': 'cifar10',
+ 'dataset_path': './data/cifar10',
+ 'device': 'cuda',
+ 'early_stop': True,
+ 'early_stop_patience': 25,
+ 'early_stop_threshold': 0.99,
+ 'epochs': 100,
+ 'frequency_save': 0,
+ 'img_size': (32, 32, 3),
+ 'index': None,
+ 'init_cost': 0.001,
+ 'input_channel': 3,
+ 'input_height': 32,
+ 'input_width': 32,
+ 'log': 'record/blended_vgg19_cifar_0_05/defense/nc/log/',
+ 'lr': 0.01,
+ 'lr_scheduler': 'CosineAnnealingLR',
+ 'mask_lr': 0.1,
+ 'model': 'vgg19_bn_cifar',
+ 'n_times_test': 1,
+ 'nc_epoch': 80,
+ 'non_blocking': True,
+ 'num_classes': 10,
+ 'num_workers': 2,
+ 'patience': 5,
+ 'pin_memory': True,
+ 'prefetch': False,
+ 'random_seed': 0,
+ 'ratio': 0.05,
+ 'result_file': 'blended_vgg19_cifar_0_05',
+ 'save_path': 'record/blended_vgg19_cifar_0_05/defense/nc/',
+ 'sgd_momentum': 0.9,
+ 'terminal_info': ['./defense/nc.py',
+                   '--result_file',
+                   'blended_vgg19_cifar_0_05',
+                   '--yaml_path',
+                   './config/defense/nc/cifar10.yaml',
+                   '--dataset',
+                   'cifar10',
+                   '--model',
+                   'vgg19_bn_cifar',
+                   '--num_workers',
+                   '2'],
+ 'to_file': True,
+ 'unlearning_ratio': 0.2,
+ 'use_norm': 1,
+ 'wd': 0.0005,
+ 'yaml_path': './config/defense/nc/cifar10.yaml'}
+2026-11-24:02:33:35 [INFO    ] [nc.py:581] {'git hash': None,
+ 'last 3 log': 'commit f02e3534645f0ee63d6848653062cd6c0d6c400d\n'
+               'Author: SCLBD <90437772+SCLBD@users.noreply.github.com>\n'
+               'Date:   Fri Jul 4 16:28:38 2025 +0800\n'
+               '\n'
+               '    Update README.md\n'
+               '\n'
+               'commit b54631eb8884abc4e6c4653a579eddd6161c7ab5\n'
+               'Author: Hongrui CHEN '
+               '<75762846+CHR-ray@users.noreply.github.com>\n'
+               'Date:   Thu Mar 27 15:35:44 2025 +0800\n'
+               '\n'
+               '    Update install.sh\n'
+               '\n'
+               'commit 990c17304ef40b33e5193dd0c6adc964d6f8b077\n'
+               'Author: SCLBD <90437772+SCLBD@users.noreply.github.com>\n'
+               'Date:   Thu Mar 20 10:36:56 2025 +0800\n'
+               '\n'
+               '    Update README.md\n'
+               '    \n'
+               '    update web link',
+ 'status': 'HEAD detached at f02e353\n'
+           'Changes not staged for commit:\n'
+           '  (use "git add <file>..." to update what will be committed)\n'
+           '  (use "git restore <file>..." to discard changes in working '
+           'directory)\n'
+           '\tmodified:   defense/ft.py\n'
+           '\tmodified:   defense/nc.py\n'
+           '\tmodified:   utils/aggregate_block/model_trainer_generate.py\n'
+           '\tmodified:   utils/save_load_attack.py\n'
+           '\n'
+           'Untracked files:\n'
+           '  (use "git add <file>..." to include in what will be committed)\n'
+           '\tconfig/attack/prototype/cifar10_vgg19_cifar.yaml\n'
+           '\tdata/\n'
+           '\tdefense/__pycache__/\n'
+           '\trecord/blended_vgg19_cifar_0_01/\n'
+           '\trecord/blended_vgg19_cifar_0_05/\n'
+           '\trecord/blended_vgg19_cifar_0_1/\n'
+           '\tutils/__pycache__/\n'
+           '\tutils/aggregate_block/__pycache__/\n'
+           '\n'
+           'no changes added to commit (use "git add" and/or "git commit -a")'}
+2026-11-24:02:33:37 [INFO    ] [bd_dataset_v2.py:133] save file format is .png
+2026-11-24:02:33:37 [INFO    ] [nc.py:648] Test 0:
+2026-11-24:02:33:37 [INFO    ] [nc.py:659] ----------------- Analyzing label: 0 -----------------
+2026-11-24:02:35:14 [INFO    ] [nc.py:666] The regularization of mask for target label 0 is 53.951171875
+2026-11-24:02:35:14 [INFO    ] [nc.py:659] ----------------- Analyzing label: 1 -----------------
+2026-11-24:02:36:47 [INFO    ] [nc.py:666] The regularization of mask for target label 1 is 96.09308624267578
+2026-11-24:02:36:47 [INFO    ] [nc.py:659] ----------------- Analyzing label: 2 -----------------
+2026-11-24:02:38:36 [INFO    ] [nc.py:666] The regularization of mask for target label 2 is 92.28263092041016
+2026-11-24:02:38:36 [INFO    ] [nc.py:659] ----------------- Analyzing label: 3 -----------------
+2026-11-24:02:40:13 [INFO    ] [nc.py:666] The regularization of mask for target label 3 is 76.46501159667969
+2026-11-24:02:40:13 [INFO    ] [nc.py:659] ----------------- Analyzing label: 4 -----------------
+2026-11-24:02:41:34 [INFO    ] [nc.py:666] The regularization of mask for target label 4 is 65.59696960449219
+2026-11-24:02:41:34 [INFO    ] [nc.py:659] ----------------- Analyzing label: 5 -----------------
+2026-11-24:02:42:53 [INFO    ] [nc.py:666] The regularization of mask for target label 5 is 76.10884094238281
+2026-11-24:02:42:53 [INFO    ] [nc.py:659] ----------------- Analyzing label: 6 -----------------
+2026-11-24:02:44:06 [INFO    ] [nc.py:666] The regularization of mask for target label 6 is 101.35895538330078
+2026-11-24:02:44:06 [INFO    ] [nc.py:659] ----------------- Analyzing label: 7 -----------------
+2026-11-24:02:45:57 [INFO    ] [nc.py:666] The regularization of mask for target label 7 is 40.61151123046875
+2026-11-24:02:45:57 [INFO    ] [nc.py:659] ----------------- Analyzing label: 8 -----------------
+2026-11-24:02:47:13 [INFO    ] [nc.py:666] The regularization of mask for target label 8 is 95.51513671875
+2026-11-24:02:47:13 [INFO    ] [nc.py:659] ----------------- Analyzing label: 9 -----------------
+2026-11-24:02:49:04 [INFO    ] [nc.py:666] The regularization of mask for target label 9 is 72.03060913085938
+2026-11-24:02:49:04 [INFO    ] [nc.py:671] 10 labels found
+2026-11-24:02:49:04 [INFO    ] [nc.py:672] Norm values: tensor([ 53.9512,  96.0931,  92.2826,  76.4650,  65.5970,  76.1088, 101.3590,
+         40.6115,  95.5151,  72.0306], device='cuda:0')
+2026-11-24:02:49:04 [INFO    ] [nc.py:420] Flagged label list: 
+2026-11-24:02:49:04 [INFO    ] [nc.py:678] This is not a backdoor model
+2026-11-24:02:49:06 [INFO    ] [trainer_cls.py:972] Do NOT set the settings/parameters attr manually after you start training!
+You may break the relationship between them.
+2026-11-24:02:49:06 [INFO    ] [trainer_cls.py:1030] ('epoch_now:0, '
+ "batch_now:0self.amp:True,self.criterion:CrossEntropyLoss(),self.optimizer:None,self.scheduler:None,self.scaler:{'scale': "
+ "65536.0, 'growth_factor': 2.0, 'backoff_factor': 0.5, 'growth_interval': "
+ "2000, '_growth_tracker': 0})")
+2026-11-24:02:49:14 [INFO    ] [trainer_cls.py:65] {'bd_test_loss_avg_over_batch': 0.025694534001458023,
+ 'clean_test_loss_avg_over_batch': 0.40953135266900065,
+ 'test_acc': 0.8722,
+ 'test_asr': 0.9931111111111111,
+ 'test_ra': 0.006111111111111111}
+2026-11-24:02:49:15 [INFO    ] [save_load_attack.py:176] saving...
