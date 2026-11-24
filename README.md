@@ -25,6 +25,21 @@ Training curves for the Colab attack run (`vgg19_bn_cifar`):
 
 More detail and the other runs: [`logs/README.md`](logs/README.md).
 
+### Defense results across attacks and ratios (single seed, `vgg19_bn_cifar`, default defense settings)
+
+| Attack | Poison | Undefended CA / ASR | After NC CA / ASR | After FT CA / ASR |
+|---|---|---|---|---|
+| BadNets | 10% | 0.8762 / 0.9671 | 0.9061 / 0.0108 | 0.9041 / 0.9169 |
+| BadNets | 5% | 0.8818 / 0.9481 | 0.9124 / 0.0110 | 0.9069 / 0.8897 |
+| BadNets | 1% | 0.8759 / 0.8299 | 0.9118 / 0.0112 | 0.9067 / 0.6936 |
+| Blended | 10% | 0.8697 / 0.9982 | 0.9030 / 0.1408 | 0.9034 / 0.9808 |
+| Blended | 5% | 0.8723 / 0.9931 | 0.8722 / 0.9931 (nothing flagged) | 0.9090 / 0.9748 |
+| Blended | 1% | 0.8758 / 0.9319 | 0.9048 / 0.8781 (wrong label flagged) | 0.9075 / 0.8189 |
+
+- **BadNets:** NC flagged the true target (label 0) at all three ratios and removed the backdoor. FT removed little (most at 1%, which also started from the weakest backdoor).
+- **Blended:** NC flagged the target only at 10%, and that is borderline (anomaly index 2.11). At 5% it flagged nothing (index 1.48), so the model was unchanged. At 1% it flagged label 2, not the target (index 3.55). FT left most of the backdoor at 10% and 5% and reduced it somewhat at 1%.
+- One seed per cell, so we make no claim about trends across ratios or why Blended was harder. The Blended attack models were trained by Ahmed; all NC and FT runs by Rahil. Per-run logs and NC detection details: [`logs/README.md`](logs/README.md).
+
 ### Evaluation: FT vs NC across model configurations
 
 Shruthi implemented an evaluation pipeline that extracts the final
@@ -88,7 +103,9 @@ defense/ft.py             : "--num_workers", type=float  ->  type=int
 python ./defense/nc.py --result_file badnet_vgg19_cifar_0_1 --yaml_path ./config/defense/nc/cifar10.yaml --dataset cifar10 --model vgg19_bn_cifar --num_workers 2
 python ./defense/ft.py --result_file badnet_vgg19_cifar_0_1 --yaml_path ./config/defense/ft/cifar10.yaml --dataset cifar10 --model vgg19_bn_cifar --num_workers 2 --epochs 30
 ```
-NC takes about 40 min (trigger search about 20, unlearning about 17). FT takes about 10 min.
+On the Colab T4, NC took about 16 to 20 min and FT about 10 min in the final runs (NC took about 40 min in the midpoint run).
+
+For Blended, use the same commands with `--result_file blended_vgg19_cifar_0_1` (also `_0_05` and `_0_01`). Folder suffix `_0_1` is 10%, `_0_05` is 5%, `_0_01` is 1%.
 
 **Check it worked:** the attack ends near clean 0.87 / ASR 0.95 to 0.97; NC prints `Flagged label list: 0: ...` and "This is a backdoor model". Clean accuracy of exactly 0.1 means the model collapsed; check the model name and yaml.
 
@@ -132,8 +149,8 @@ included as their results become available.
 
 ## Protocol
 - Clean accuracy is computed over all 10,000 test images. ASR is computed on the 9,000-image backdoor test set, which is consistent with excluding the 1,000 test images whose true label is already class 0. We have not yet confirmed in the BackdoorBench code that this is how the set is built; we will confirm it before the final report.
-- Matrix: 2 attacks x 2 defenses x 3 ratios. **Done:** BadNets 10%, both defenses. **Remaining:** 5%, 1%, Blended.
-- Midpoint runs use default defense settings (FT at 30 epochs instead of 100). Final runs will tune on a validation split, then evaluate once on test.
+- Matrix: 2 attacks x 2 defenses x 3 ratios. **Done:** NC and FT on BadNets and Blended at 10%, 5% and 1% (12 defense runs). **Remaining:** tuning the defenses on a validation split, then the final evaluation.
+- All runs so far use default defense settings (FT at 30 epochs instead of 100). Final runs will tune on a validation split, then evaluate once on test.
 - All numbers are single-seed baselines.
 - Midpoint evaluation: The existing BadNets 10% poisoning results
   are compared across stock VGG19-BN and modified VGG19-BN.
